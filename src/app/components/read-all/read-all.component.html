@@ -1,0 +1,98 @@
+<div class="container">
+  <button class="nova-reserva mat-elevation-z8 large-button" mat-stroked-button color="primary" routerLink="/reservas/create">CADASTRAR NOVA RESERVA</button>
+
+  <!-- Formulário de Cadastro -->
+  <div class="cadastro-form">
+    <form (submit)="criarReserva()">
+
+      <div class="form-group">
+        <label for="nomeHospede">Nome do Hospede:</label>
+        <input type="text" id="nomeHospede" [(ngModel)]="novaReserva.nomeHospede" name="nomeHospede" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="dataInicio">Data de Início:</label>
+        <input type="date" id="dataInicio" [(ngModel)]="novaReserva.dataInicio" name="dataInicio" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="dataFim">Data de Fim:</label>
+        <input type="date" id="dataFim" [(ngModel)]="novaReserva.dataFim" name="dataFim" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="quantidadePessoas">Quantidade de Pessoas:</label>
+        <input type="number" id="quantidadePessoas" [(ngModel)]="novaReserva.quantidadePessoas" name="quantidadePessoas" class="form-control" required>
+      </div>
+
+      <div class="button-group">
+        <button mat-raised-button color="primary" type="submit">Salvar</button>
+        <button mat-raised-button color="warn" type="button" (click)="limparFormulario()">Cancelar</button>
+      </div>
+    </form>
+    <p *ngIf="isReservaSaved" class="mensagem-sucesso">Reserva salva com sucesso!</p>
+  </div>
+
+   <!-- Busca por Id -->
+   <div class="busca">
+    <button mat-raised-button color="primary" (click)="buscarReserva()">Buscar</button>
+    <input type="text" placeholder="Digite o ID da reserva" [(ngModel)]="idReservaBusca" class="form-control busca-input">
+  </div>
+
+   <!-- Lista de Reservas -->
+  <button class="nova-reserva mat-elevation-z8 large-button" mat-stroked-button color="primary" (click)="atualizarLista()">ATUALIZAR LISTA DE RESERVA</button>
+  <p *ngIf="isReservaCanceled" class="mensagem-sucesso">Reserva cancelada com sucesso!</p>
+
+  <div class="content" *ngFor="let item of list">
+    <mat-card class="mat-elevation-z8">
+      <p>ID: {{ item.id }}</p>
+      <mat-card-header>
+        <mat-card-title>{{ item.nomeHospede }}</mat-card-title>
+        <mat-card-subtitle>Data de Início: {{ item.dataInicio | date:'yyyy-MM-dd' }}</mat-card-subtitle>
+        <mat-card-subtitle>Data de Fim: {{ item.dataFim | date:'yyyy-MM-dd' }}</mat-card-subtitle>
+        <mat-card-subtitle>Quantidade de Pessoas: {{ item.quantidadePessoas }}</mat-card-subtitle>
+        <mat-card-subtitle>Status: {{ item.status }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <div class="actions">
+      <button mat-mini-fab color="primary" (click)="editarReserva(item)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="cancelarReserva(item)">
+            <mat-icon>delete</mat-icon>
+          </button>
+      </div>
+
+    <!-- Formulário de Edição -->
+    <div class="cadastro-form" *ngIf="isEditing">
+      <form (submit)="atualizarReserva(item)">
+
+        <div class="form-group">
+          <label for="nomeHospede">Nome do Hospede:</label>
+          <input type="text" id="nomeHospede" [(ngModel)]="item.nomeHospede" name="nomeHospede" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="dataInicio">Data de Início:</label>
+          <input type="date" id="dataInicio" [(ngModel)]="item.dataInicio" name="dataInicio" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="dataFim">Data de Fim:</label>
+          <input type="date" id="dataFim" [(ngModel)]="item.dataFim" name="dataFim" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="quantidadePessoas">Quantidade de Pessoas:</label>
+          <input type="number" id="quantidadePessoas" [(ngModel)]="item.quantidadePessoas" name="quantidadePessoas" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" [(ngModel)]="item.status" name="status" class="form-control" required>
+            <option value="CONFIRMADA">CONFIRMADA</option>
+            <option value="PENDENTE">PENDENTE</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button mat-raised-button color="primary" type="submit">Atualizar</button>
+          <button mat-raised-button color="warn" type="button" (click)="cancelarEdicao(item)">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>
