@@ -1,3 +1,3 @@
 export const environment = {
-  baseUrl: 'http://localhost:8080/reservas'
+  baseUrl: 'projeto-casa-temporada.up.railway.app/reservas'
 };
